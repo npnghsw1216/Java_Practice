@@ -1,0 +1,108 @@
+---------------------------------
+1. 상속(Inheritance)
+	1) 정의 : 객체 지향 프로그램 가장 큰 특성 -> 재사용성 -> 상속
+		- 예전 언어에서는 매크로(Macro), 인라인
+		- 클래스를 만들 때 처음부터 모든 것을 새로 만드는 것이 아니라 
+		- 부모로부터 받고 추가되는 것만 새로 만드는 것
+	2) 클래스 상속
+		- 용어 : 부모, 슈퍼, 상위, 베이스 클래스 <-> 자식, 서브, 하위, 파생(derive) 클래스
+		- 클래스 상속 방법 
+			- 키워드 1개 : extends
+			class Child extends Parent {
+			
+			}
+		- 상속의 특징
+			- 단일 상속만 가능(부모는 한 개만)
+			- new Child() => Parent객체 생성 > Child객체생성
+			- 모든 클래스의 조상(Object)
+		- super
+			- Child객체에서 Parent객체를 가리키는 변수
+			- super.변수명
+			- super.메서드명()
+	3) 메서드 재정의(Overriding)
+		- 부모 클래스의 메서드를 자식 클래스가 변경해서 정의하는 것
+		- 메서드명 뿐 아니라 메서드에 들어갈 입력값까지 완벽하게 동일해야 한다.
+			- 메서드명이 같고 입력값의 형태가 다르면 Overloading
+		- 동일한 형태의 메서드일 때 클래스의 메서드가 우선시
+		- 부모의 접근 권한보다 같거나 낮은 권한이어야 한다.
+	4) 다형성(Polymorphism)
+		1) 
+		  int i = 10;
+		  double d = i (o)   // 큰 집에서 작은집 가능
+		  
+		  double b = 10.34;
+		  int j = b;   (x)   // 작은집에서 큰 집 불가능
+		  int j = (int)b (o) // 이럴 경우 형 변환
+		  
+	    2)
+	      Parent p = new Child();   => 가능         // child는 100개의 함수 parent는 50개의 함수 
+	      Child c = new Parent();   => 불가능
+		  c.생떼쓰기(), c.산타에게 선물받기() 등등...       // 이런 기능이 Parent에게는 없기 때문 
+		  
+		  Child c = (Child) p;      => 가능
+		  
+		  Parent p = new Parent();
+		  Child c = (Child) p;      => ???  => 불가능
+		  c.생떼쓰기()
+---------------------------------
+2. String Class 
+	- cf) C : String이 없다.(char*사용) 선언 : char* str
+	- 
+	String str 1 = "abcde";
+	String str 2 = "abcde";
+	str1 == str2;
+	
+	1) final 클래스로 상속을 받아서 수정할 수 없다.
+	2) new String 또는 " "로 생성 가능
+	3) 많은 주요 메서드들이 있다.
+		1) length() : 문자열의 길이를 return 
+		String a = "hello";
+		a.length(); => 5   cf) len(a)
+		
+		2) charAt(인덱스) : 인덱스 위치에 있는 글자를 return 
+		   String jumin_bunho = "001234-3812367"
+		   jumin_bunho.charAt(7) -> 성별을 나타내는 숫자
+		   
+		3) equals(str) : str과 동일한 값인지 check
+		   equalsIgnoreCase(str) : str 대소문자 관계없이 동일한 문자열 값인지 check
+		   
+	    4) replace(찾을문자열, 대체할문자열) : 특정 문자열을 찾아서 원하는 문자열로 대체
+	    
+	    5) substring(sindex, eindex) : 기존 문자열에서 특정 부분을 잘라내어 return 
+	    
+	    6) trim() : 문자열 앞 뒤의 공백을 제거한다.
+	    
+	    7) split(나눌문자) : 특정 문자로 앞 뒤를 나우어 리턴
+	    
+	    8) matches(정규표현식) : 문자열이 정규표현식 조건에 맞는지 리턴
+---------------------------------
+3. 좌석예약 프로그램 개발
+
+[SeatNo]
+- char row
+- int column
+
+[Seat]
+- String cust_name
+- SeatNO seat_no
+- int price = 10000;
+
+[Theatre]
+- int empty_seat : 비어있는 자리 수
+- Seat[] seat : 좌석(총 10자리) new Seat[10]
+- reserve(char, int, String) : 행(a,b,c,d,e), 열(1,2), 이름으로 예약한다.
+	- 예약이 가능하면 예약, 빈자리수--, 
+		- 빈 자리수가 10개 미만
+		- 빈 자리수가 1개이면 100000000(1억)으로 인상
+	- 예약이 불가하면 예약이 실패되었다는 메시지 
+- showStatusReport
+- showPicture
+	무대		(노란색)
+	o x		o : GREEN BG	
+	o o		x : RED BG
+	o o
+	x x
+	o o
+	
+[ReserveMain]
+---------------------------------				

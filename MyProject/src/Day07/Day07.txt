@@ -1,0 +1,143 @@
+---------------------------------
+0. 지난 학습
+1) 상속(Inheritance)
+   - 정의 : 부모클래스로부터 클래스의 변수와 메서드를 물려받는 것
+   - 방법 : 
+      extends 상속할 클래스
+   - 단일 상속만 가능
+   - 메서드 오버라이딩(재정의)
+      - 메서드명과 입력 값(파라미터)가 완벽하게 동일
+   - 다형성
+      - Parent p = new Child(); (O)
+      - Child c = new Parent(); (X)
+---------------------------------
+1. 인터페이스(Interface)
+cf) Python : interface 없음
+1) 사전적 의미 :
+   - 하나의 시스템을 구성하는 구성요소(하드웨어, 소프트웨어)
+   - 또는 두 개의 시스템이 상호 작용할 수 있도록 접속하는 경계
+   - 상호 접속하기 위한 하드웨어, 소프트웨어, 조건, 규약 등을 포괄적으로 가리키는 말
+2) Java에서의 인터페이스
+   - 프로그램과 프로그램을 연결해주는 것
+   - 한마디로 요약하면 인터페이스는 [규제]이다.
+   - 특정한 규약에 따라서 개발하도록 하는 목적
+   - 클래스가 인터페이스를 사용하려면 "반드시" 인터페이스에 정의된 메소드를 구현해야 함
+   - 인터페이스의 메서드를 구현하지 않으면 컴파일도 되지 않는다.
+3) 사용법
+   [public] interface 인터페이스명 {
+      [public][static][final] 자료형 상수명 = 값;
+      [public] 리턴타입 메서드명(매개변수){ }; // 초기에는 이 줄까지만 있었다.
+      [public] default 리턴타입 메서드명(매개변수){ 함수내용 };
+      [public] static 리턴타입 메서드명(매개변수){ 함수내용 };
+   }
+4) 간단한 사용 예
+   interface Interface1 {
+      public void myMethod1();
+   }
+   
+   class Interface1_Class implements Interface1 { //s 있어야함 : 3인칭 단수
+      public void myMethod1(){
+      // 빈 깡통이라도 만들어야 한다.
+      // 없으면 빨간 밑줄(노예계약)
+      }
+   }
+5) 인터페이스의 특징
+   - 인터페이스와 상속은 다르다.
+      - 상속은 부모 클래스의 기능을 자식 클래스가 물려받는것
+      - 인터페이스는 자식 클래스의 특정한 메서드가 반드시 존재하도록 강제하는 것
+   - 클래스 선언은 class, 인터페이스 선언은 interface
+   - 클래스 상속은 extends, 인터페이스는 구현은 implements
+   - "클래스가 인터페이스를 구현한다."
+   - 예) 
+      - 계산기 개발 프로젝트, 시간은 없음
+      - 계산기 클래스는 A가 만들고 B는 계산기 클래스를 이용하는 로직 개발
+      - 동시에 개발을 하기 때문에 B는 A가 계산기 클래스를 잘 개발할 것이다 라고 가정하고 진행함
+   - 하나의 클래스가 여러개의 인터페이스를 구현할 수 있음
+      interface I1 {
+         void x();
+      }
+      interface I2 {
+         void y();
+      }
+      class A implements I1, I2 {
+         void x() { }
+         void y() { }
+      }
+   - 인터페이스도 상속이 된다.
+      interface I3 {
+         void x();
+      }
+      interface I4 extends I3
+         void z();
+      }
+      class B implements I4 {
+         void z() { }
+         void x() { }
+      }
+   - 추가 특징
+      - 인터페이스의 멤버가 반드시 public
+      - 인터페이스 자신을 구현할 클래스를 어떻게 조작할 것인가를 규정
+      - default, static 접근 제어자를 java 8부터 사용 가능
+      - default의 의미 : 
+         - 메서드를 인터페이스가 구현
+         - 라이브러리 업데이트 때문에 만들었음      
+      - static의 의미 :
+         - 구현 없이 인터페이스만으로 호출 가능
+---------------------------------
+2. 예외(Exception) 처리
+   - 에러 : 컴파일시 발생하는 에러와 런타임시 발생하는 에러가 있음
+   - 예외 : 런타임시 발생하는 에러 가운데, 사용자 처리가 가능한 에러
+      - 사용자 처리가 불가능한 사례 : 메모리 부족
+      
+1) 예외 처리 방법
+   try {
+      // 예외 후보 구문
+   }
+   catch(예외코드){
+      // 예외가 발생하면 실행되는 부분
+      return; // return이 있어도 finally를 읽는다.(finally 강력)
+   }
+   finally {
+      // 예외가 발생하든지 말든지 실행하는 부분
+   }
+   
+2) 예외 출력
+   Exception 계열 e
+   e.getMessage() : 오류에 대한 기본적인 내용을 출력. 상세X
+   e.toString() : getMessage보다는 상세한 예외정보 제공
+   e.printStackTrace() : 가장 자세한 예외정보 제공
+   
+3) 사용자 예외 처리
+   - 메서드 선언 시에 메서드() throws Exception {
+   
+   }
+---------------------------------
+3. 기본 클래스(String 외)
+1) System
+   - System.currentTimeMillis() 
+      - 현재 시간을 밀리초 단위로 가져온다.(성능측정할때 빠질 수 없다.)
+      - 특정 시점 기준이어서 읽기는 어려움.(1970년 1월 1일 기준으로 측정)
+         - 예)
+            변수 1 = currentTimeMillis();
+            실행로직
+            변수 2 = currentTimeMillis();
+            변수2 - 변수1이 수행시간을 의미한다.
+         - cf) C : micro 단위까지 측정가능(C의 경우 더 자세히 측정할 수 있다.)
+             Python : time.time()
+             
+2) StringBuffer  
+   - String과 다른 점은 String은 값이 바뀔 때마다 새롭게 공간할당
+   - equals()가 없음 => toString() // equals로 String과 바로 비교 불가능 그래서 toString 이 후 equals 사용하여 비교
+   - insert, delete, append
+   
+3) Math
+   - abs() : 절대 값
+   - ceil(), floor() : 올림과 내림
+   - min(), max() : 최소, 최대
+   - round(숫자, 소수점몇째자리까지?안쓰면1에자리까지) : 반올림
+      - cf) Python : 3.6665  3.6675  반올림(서로 다르게 나온다.)
+
+4) Date, SimpleDateFormat
+   - Date : 날짜 클래스
+   - SimpleDateFormat : 날짜, 출력할 모습을 결정할 수 있음
+---------------------------------

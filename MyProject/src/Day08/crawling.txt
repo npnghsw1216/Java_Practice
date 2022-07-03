@@ -1,0 +1,132 @@
+1. 웹 크롤러
+    크롤링(Crawling) : 사전적으로 기어다니다 라는 뜻
+    웹 크롤러(최초의 검색엔진) : 웹사이트 내용을 수집하는 봇
+    웹 크롤러가 하는 일을 웹 크롤링(web crawling) 또는 스파이더링(spidering)이라고 함
+    웹 스크래핑(Web Scraping)
+
+2. 크롤링 대상
+    1) 크롤링의 대상은 웹 상의 자원
+    2) 자원은 정적인 문서(HTML 등), API와 같은 서비스
+    3) 다수의 데이터를 수집하고 여기서 필요한 정보만 추출해서 처리하는 것이 크롤링
+    4) 구글 등의 검색엔진에서는 웹 사이트의 정적인 데이터를 가져다가 검색 인덱스를 생성한 것
+        가격정보 비교사이트에서는 상품과 가격정보를 가져다가 비교
+    5) 누구나 필요에 따라 제작할 수 있는 것
+
+3. 크롤링 툴, 라이브러리
+    1) 툴이든 라이브러리든 정보를 수집하는 것은 동일
+    2) 일반적으로 BeautifulSoup의 자바버전 JSoup이나 Selenium 등을 사용
+    3) BeautifulSoup은 구문을 해석해서 필요한 내용만 추출하는 패키지
+        이상한 나라의 앨리스에서 가짜 거북이가 부르는 노래 Dinner Soup, Beautiful Soup
+
+4. 크롤링의 절차
+    1) 크롤링 대상 선정(API, 웹문서)
+       웹에 있는 데이터는 다 고유한 URI라는 ID를 갖는다.
+       "https://search.naver.com/search.naver?query=뮤직"
+    2) 데이터 로드
+       데이터 로드는 웹 사이트에서 데이터를 가져오는 것
+       웹페이지라면 HTML, API라면 JSON 형태의 데이터
+    3) 데이터 분석
+       로드된 데이터에서 필요한 부분을 뽑아내는 것
+       당연하게 데이터에 내가 필요하지 않은 부분이 많음
+       어떤 부분을 수집할 지 선정하는 과정
+    4) 데이터 수집
+       데이터 분석에서 수집할 내용을 선정하면
+       이를 추출하여 파일, 메모리, 화면 등으로 저장하는 것
+
+5. 크롤링에 필요한 지식
+    1) HTML(HyperText Markup Language)
+       웹페이지를 구성하는 언어
+       웹페이지에서 우측 마우스 버튼으로 (페이지)소스보기를 하면 보이는 문서
+       <  > 부분을 Tag라고 함
+       *) 구조
+       <html>
+           <head> </head>
+           <body>
+                <div class="container">내용</div>
+           </body>
+       </html>
+    
+     2) API(Application Programming Interface)
+        특정 URL로 들어갔을 때 데이터가 반환, 최신 인기는 REST API(예전에는 SOA)
+        JSON(JavaScript Object Notation) 형식으로 대부분 데이터가 들어옴
+        2-1) Object
+              {'블로그명' : 'Wikidipia' , '주소' : ['https://wikidipia.org','다른주소']}
+        2-2) Array : 동일 타입이 아니어도 정의 가능
+              ['1', 2, 3.55]
+        2-3) string : 문자열
+              '문자열'   "문자열" 둘 다 가능
+              '문자열 "문자열" 문자열' 처럼 복합적으로도 사용 가능
+        2-4) number : 숫자
+              1, 2.5, -1
+
+6. Java에서 크롤링하기(with Jsoup)
+      1) Jsoup 라이브러리 다운받기
+         https://jsoup.org/download
+      2) 이클립스 프로젝트에서 프로젝트 이름 우클릭
+          Property > Java Build Path > Library
+          Classpath를 선택 후 Add External JARs를 선택하고 3개 파일을 추가
+      3) 사용할 클래스들을 import
+          import org.jsoup.Jsoup;
+          import org.jsoup.nodes.Document;
+          import org.jsoup.select.Elements;
+          import org.jsoup.nodes.Element;
+      4) Document를 받아옴(문서 전체)
+          Document변수 = Jsoup.connect("URL주소").get();
+      5) Elements를 받아옴(필요한 데이터 전체)
+          Elements변수 = Document변수.select(옵션);
+          *) 옵션(naver 사이트소스 예)
+             tag : 주어진 태그명을 갖는 element, ex) div
+             #id : id속성이 주어진 "id"인 element, ex) div#power_link_body
+             .class : class속성이 주어진 "class"인 element, ex) div.url_area
+             [attr] : 속성 이름이 "attr"인 element, ex) a[href]
+             [attr=value] : 속성 이름이 "attr"이고 값은 "value"인 element
+
+예제) 아래 사이트에서 다운로드 수 인 81을 가져오려면
+        select("div ul li span.type01") -> elements에서 text()로 가져오면 됨
+
+<div>
+<ul>
+	<li>
+		<em><img src="/userpoc/images/detail/txt_downnumb.gif" alt="다운로드 수" /></em>
+		<span class="type01" title="81">81</span>
+	</li>
+	<li>
+		<em><img src="/userpoc/images/detail/txt_uselevel.gif" alt="이용등급" /></em>
+		<span title="전체이용가">전체이용가</span>
+	</li>
+	<li>
+		<em><img src="/userpoc/images/detail/txt_adddate.gif" alt="등록일" /></em>
+		<span title="2013-08-23">2013-08-23</span>
+	</li>
+	<li>
+		<em><img src="/userpoc/images/detail/txt_updaedate.gif" alt="업데이트일" /></em>
+		<span title="2013-08-27">2013-08-27</span>
+	</li>
+	<li>
+		<em><img src="/userpoc/images/detail/txt_capacity.gif" alt="용량" /></em>
+		<span title="2000">2,000 KB</span>
+	</li>
+	<li>
+		<em><img src="/userpoc/images/detail/txt_platform.gif" alt="플랫폼" /></em>
+		<span title="Android">Android</span>
+	</li>
+</ul>
+</div>
+
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

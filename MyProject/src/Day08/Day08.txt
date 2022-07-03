@@ -1,0 +1,117 @@
+---------------------------------
+1. 컬렉션 프레임워크(Collection Framework)
+	- 코딩을 하다가 객체를 저장하고 필요 시에 꺼내쓰는 경우가 많음
+	- 가장 간단한 케이스는 [] 배열임
+	- 배열 선언 방법
+		- 데이터타입[] 변수명 = new 데이터타입[배열의 길이]
+		- int[] int_array = new int[10];
+	- 배열은 우리가 들어갈 개수를 알고 있을 때 사용이 편함, 모르면 불가
+	- 그렇다고 배열을 1000개씩 만들면 공간의 낭비가 발생
+	- 배열에서 데이터를 삭제하면 그 공간은 빈 자리가 됨
+	- 배열의 문제점 + 알려진 자료구조로 데이터를 추가, 삭제, 검색이 가능하도록
+	- java.util 패키지에 여러 가지 인터페이스와 클래스를 추가 => 컬렉션 프레임워크라고 부름
+	- (1) 컬렉션 프레임워크의 대분류
+		- 리스트(List), 셋(Set), 맵(Map)
+	- (2) 리스트(List)
+		- 객체를 일렬로 늘어놓은 구조
+        - 객체를 인덱스로 관리
+        - 객체를 저장하면 인덱스는 자동 생성
+        - 인덱스로 객체를 검색, 삭제 기능 보유
+        - ArrayList, Vector, LinkedList 
+		- 주요메서드) 
+			- add(), set(), contains(), get(), size(), clear(), remove()
+        - 1) ArrayList
+			- ArrayList al = new ArrayList()  => 기본으로 10개의 저장소 생성  
+        - 2) LinkedList
+            - 인접 참조를 링크해서 체인처럼 관리
+		- 끝에 데이터를 추가하는 경우는 ArrayList가 속도가 빠름
+        - 중간에 데이터를 추가하는 경우는 LinkedList가 속도가 빠름
+	- * Iterator
+		- 컬렉션 프레임워크 객체에 저장된 데이터에 접근할 수 있는 인터페이스 
+        - 모든 컬렉션은 iterator로 변환 가능
+        - hasNext() : 다음 데이터가 있는지 체크
+        - next() : 다음 데이터 읽기
+        - remove() : 삭제하기
+    - * ListIterator
+        - Iterator 인터페이스를 상속
+        - hasPrevious() : 이전 데이터가 있는지 체크
+        - set() : 데이터 교체
+        - previousIndex() : 이전 데이터의 인덱스
+        - nextIndex() : 다음 데이터의 인덱스
+	- (3) Set 컬렉션
+		- 중복을 허용하지 않음
+        - 저장 순서가 유지되지 않음
+        - 대표적인 클래스는 HashSet
+      
+    - (4) Map 컬렉션
+        - 키(key)와 값(value)로 구성된 Entry 객체를 저장하는 구조 : key-value store
+        - {name}:{Lee}, {age}:{100}
+        - 키는 중복 저장이 안됨
+        - 대표적인 클래스는 HashMap
+        - keySet(), entrySet(), put(), get()
+---------------------------------
+2. 스레드(Thread)
+	- (1) 정의
+		- 1) 메모리를 할당받아 실행중인 프로그램을 프로세스라고 함
+    	- 2) 프로세스 내의 명령어 블럭
+    	- 3) 동시에 수행 가능
+	- (2) Thread 클래스
+    	- 멀티스레드를 구현할 수 있음 
+    	- 1) 생성 방법
+       		- Thread(), Thread(String s) 
+    	- 2) 주요 메서드
+       		- sleep(long msec) : msec 동안 아무 일도 하지 않음
+       		- start() : 스레드를 시작
+       		- run() : 스레드가 할 일
+       		- suspend(), resume() : 중지, 다시시작
+	- (3) Thread 구현 방법
+    	- 1) Thread 클래스를 상속
+    	- 2) Runnable 인터페이스를 구현
+---------------------------------    
+3. 스트림(Stream)
+	- (1) IO(Input/Ouput)
+		- input : 키보드, 파일
+    	- output : 모니터, 파일    
+	- (2) 스트림(stream)
+    	- 데이터가 돌아다니는 선(통로) -> 데이터를 목적지까지 IO하는 방법
+    	- 스트림은 단방향
+    	- 자바에서 읽기/쓰기는 동시에 불가
+    	- FIFO(First In First Out), 지연 가능
+	- (3) 입출력 스트림 구조
+    	- 장치 또는 파일   ------> 입력 스트림 --------> 자바 프로그램
+    	- 장치 또는 파일   <------ 출력 스트림 <-------- 자바 프로그램
+	- (4) 스트림의 특성
+    	- 바이트 단위로 입출력하는 바이트 스트림 : 클래스명이 Stream으로 끝남
+    	- 문자 단위로 입출력하는 문자 스트림 : 클래스명이 Reader, Writer로 끝남
+    	- 사용이 끝나면 close()로 닫아야 메모리 누수(leak) 방지 가능
+	- (5) 스트림의 대분류
+    	- 1) 바이트 스트림
+       		- 바이트(8비트) 단위로 데이터는 전송하는 방식
+       		- 이미지, 영상, 음악    
+       		- java.io.InputStream, java.io.OutputStream
+    	- 2) 문자 스트림
+       		- 자바에서는 char가 2 byte이기 때문에 한글 전송 등은 바이트 스트림에서 깨짐
+       		- 이미지, 영상, 음악은 처리 불가
+       		- 바이트스트림은 byte[], 문자스트림은 char[]
+	- (6) InputStream의 메서드
+    	- int read()
+    	- int read(byte[] b)
+    	- int read(byte[] b, int offset, int len)
+	- (7) InputStream의 종류
+    	- FileInputStream : 파일
+    	- PipeInputStream : 메모리
+    	- AudioInputStream : 오디오
+    	- ByteArrayInputStream : 프로세스
+	- (8) InputStream Exercise
+    	- Image, URL(HTML), SequenceInputReader
+	- (9) OutputStream
+    	- InputStream의 read를 write로 바꾸면 됨
+---------------------------------
+4. Swing
+	- (1) Swing
+    	- 예전의 GUI 구현도구였던 awt의 차기 버전
+    	- 컴포넌트가 많고 JFrame으로 구현
+	- (2) Swing Components
+    	- JButton, JTextField, JLabel, JPasswordField
+    	- JTable, JTextArea, JSlider 
+---------------------------------
